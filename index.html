@@ -334,7 +334,7 @@
             <img src="anillos.png" alt="Abrazo de amor" class="main-image">
         </div>
         <p style="font-size: 1.3rem; color: #ff6b6b; font-weight: bold;">Eres mi gusanita favorita 🐛💕</p>
-        <p>¡Feliz San Valentín, Shirley Mabel 🐛💖!</p>
+        <p>¡Feliz San Valentín, señorita Shirley Mabel 🐛💖!</p>
         <p style="font-size: 0.9rem; color: #888;">De: Leonel Guillermo</p>
     </div>
 
@@ -362,6 +362,19 @@
         }
 
         createHearts();
+        history.replaceState({accepted:false}, '');
+        window.addEventListener('popstate', function(e) {
+            const accepted = e.state && e.state.accepted;
+            if (accepted) {
+                document.getElementById('main-card').style.display = 'none';
+                document.getElementById('success-card').style.display = 'block';
+                document.body.style.backgroundColor = '#fff5f5';
+            } else {
+                document.getElementById('success-card').style.display = 'none';
+                document.getElementById('main-card').style.display = 'block';
+                document.body.style.backgroundColor = 'var(--bg-color)';
+            }
+        });
 
         // Move the "No" button
         function moveButton() {
@@ -421,6 +434,7 @@
             document.getElementById('success-card').style.display = 'block';
             
             document.body.style.backgroundColor = '#fff5f5';
+            history.pushState({accepted:true}, '');
         }
 
         // Carousel Logic
