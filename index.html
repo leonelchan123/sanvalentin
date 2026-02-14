@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Para mi Gusanita ❤️</title>
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Nunito:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <style>
+        :root {
+            --primary-color: #ff6b6b;
+            --secondary-color: #ff9e9e;
+            --bg-color: #fff0f3;
+            --text-color: #4a4a4a;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: var(--bg-color);
+            background-image: radial-gradient(#ffdde1 2px, transparent 2px);
+            background-size: 30px 30px;
+            font-family: 'Nunito', sans-serif;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .container {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 2rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(255, 107, 107, 0.2);
+            max-width: 90%;
+            width: 550px; /* Slightly wider for carousel */
+            z-index: 10;
+            position: relative;
+            border: 3px solid #fff;
+            max-height: 95vh;
+            overflow-y: auto; /* Allow scrolling if content is too tall */
+            scrollbar-width: none; /* Firefox */
+        }
+        
+        .container::-webkit-scrollbar {
+            display: none; /* Chrome/Safari */
+        }
+
+        h1 {
+            font-family: 'Pacifico', cursive;
+            color: var(--primary-color);
+            font-size: 2.2rem;
+            margin-bottom: 0.5rem;
+            line-height: 1.2;
+        }
+
+        .image-container {
+            width: 100%;
+            height: 250px;
+            margin: 1rem 0;
+            border-radius: 15px;
+            overflow: hidden;
+            border: 4px solid var(--secondary-color);
+            position: relative;
+            background-color: #ffe6e6;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .main-image {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .main-image:hover {
+            transform: scale(1.05);
+        }
+
+        .buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 1.5rem;
+            position: relative;
+            height: 50px; /* Space for buttons to move */
+            margin-bottom: 1.5rem;
+        }
+
+        .btn {
+            padding: 10px 25px;
+            font-size: 1.1rem;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Pacifico', cursive;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .btn-yes {
+            background-color: var(--primary-color);
+            color: white;
+            z-index: 2;
+        }
+
+        .btn-yes:hover {
+            transform: scale(1.1);
+            background-color: #ff5252;
+            box-shadow: 0 6px 20px rgba(255, 82, 82, 0.4);
+        }
+
+        .btn-no {
+            background-color: #e0e0e0;
+            color: #757575;
+            position: relative;
+            transition: all 0.2s ease;
+        }
+
+        /* Carousel Styles */
+        .carousel-container {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 2px dashed #ffdde1;
+            position: relative;
+            height: 200px; /* Adjusted height */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .carousel-slide {
+            display: none;
+            animation: fadeEffect 1s;
+            text-align: center;
+            flex-direction: column;
+            justify-content: center;
+            height: 100%;
+        }
+
+        .carousel-slide.active {
+            display: flex;
+        }
+
+        .carousel-text {
+            font-size: 1.1rem;
+            color: #555;
+            font-style: italic;
+            margin-bottom: 15px;
+            line-height: 1.5;
+            padding: 0 10px;
+        }
+
+        .carousel-signature {
+            font-size: 0.9rem;
+            color: var(--primary-color);
+            font-weight: bold;
+            margin-top: auto;
+            margin-bottom: 15px;
+        }
+
+        .progress-bar-container {
+            width: 80%;
+            height: 4px;
+            background-color: #f0f0f0;
+            border-radius: 2px;
+            margin: 0 auto 15px auto;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background-color: var(--secondary-color);
+            width: 0;
+            border-radius: 2px;
+        }
+
+        .progress-bar.animate {
+            animation: progressFill 4s linear;
+        }
+
+        @keyframes progressFill {
+            from { width: 0%; }
+            to { width: 100%; }
+        }
+
+        .dots-container {
+            text-align: center;
+            margin-top: 5px;
+        }
+
+        .dot {
+            height: 8px;
+            width: 8px;
+            margin: 0 4px;
+            background-color: #ddd;
+            border-radius: 50%;
+            display: inline-block;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .dot.active {
+            background-color: var(--primary-color);
+        }
+
+        @keyframes fadeEffect {
+            from {opacity: 0.4;} 
+            to {opacity: 1;}
+        }
+
+        /* Floating Hearts Background */
+        .heart {
+            position: absolute;
+            color: var(--secondary-color);
+            opacity: 0.6;
+            animation: float 6s linear infinite;
+            z-index: 1;
+            font-size: 20px;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(100vh) scale(0); opacity: 0; }
+            50% { opacity: 0.8; }
+            100% { transform: translateY(-10vh) scale(1); opacity: 0; }
+        }
+
+        /* Hidden success message */
+        .success-message {
+            display: none;
+            animation: fadeIn 1s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 600px) {
+            h1 { font-size: 1.8rem; }
+            .image-container { height: 200px; }
+            .btn { padding: 8px 20px; font-size: 1rem; }
+            .carousel-container { height: 220px; } /* More height for mobile text wrap */
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Floating hearts container -->
+    <div id="hearts-container"></div>
+
+    <div class="container" id="main-card">
+        <h1>Gusanita... <br>¿Puedo ser tu San Valentín? 🐛❤️</h1>
+        
+        <div class="image-container">
+            <!-- IMPORTANT: User needs to save their image as 'gusanos.png' or update this src -->
+            <img src="gusanos.png" alt="Dos gusanitos enamorados" class="main-image" onerror="this.src='https://media.tenor.com/On7k9vi8h1EAAAAj/peach-goma-peach-and-goma.gif'">
+        </div>
+
+        <div class="buttons">
+            <button class="btn btn-yes" onclick="acceptProposal()">¡SÍ, ACEPTO! 💖</button>
+            <button class="btn btn-no" id="btn-no" onmouseover="moveButton()" onclick="moveButton()">No 😢</button>
+        </div>
+
+        <!-- Carousel Section -->
+        <div class="carousel-container">
+            <!-- Slide 1 -->
+            <div class="carousel-slide active">
+                <p class="carousel-text">"Eres los momentos más sinceros de mi corazón"</p>
+                <div class="carousel-signature">
+                    De: Leonel Guillermo 💖<br>
+                    Para: Shirley Mabel 🐛💖
+                </div>
+            </div>
+            <!-- Slide 2 -->
+            <div class="carousel-slide">
+                <p class="carousel-text">"Eres el amor de todos los latidos de mi vida."</p>
+                <div class="carousel-signature">
+                    De: Leonel Guillermo 💖<br>
+                    Para: Shirley Mabel 🐛💖
+                </div>
+            </div>
+            <!-- Slide 3 -->
+            <div class="carousel-slide">
+                <p class="carousel-text">"Yo estaré ahí para ti cuando ni tú estés para ti"</p>
+                <div class="carousel-signature">
+                    De: Leonel Guillermo 💖<br>
+                    Para: Shirley Mabel 🐛💖
+                </div>
+            </div>
+            <!-- Slide 4 -->
+            <div class="carousel-slide">
+                <p class="carousel-text">"Mereces ir a dormir sabiendo que estás haciendo lo mejor que puedes, que eres suficiente y que todo va a estar bien"</p>
+                <div class="carousel-signature">
+                    De: Leonel Guillermo 💖<br>
+                    Para: Shirley Mabel 🐛💖
+                </div>
+            </div>
+
+            <!-- Slide 5 -->
+            <div class="carousel-slide">
+                <p class="carousel-text">"Eres fria como el hielo pero póntela en los labios y verás como arde"</p>
+                <div class="carousel-signature">
+                    De: Leonel Guillermo 💖<br>
+                    Para: Shirley Mabel 🐛💖
+                </div>
+            </div>
+
+            <!-- Progress Bar -->
+            <div class="progress-bar-container">
+                <div class="progress-bar" id="progress-bar"></div>
+            </div>
+
+            <div class="dots-container">
+                <span class="dot active" onclick="currentSlide(1)"></span>
+                <span class="dot" onclick="currentSlide(2)"></span>
+                <span class="dot" onclick="currentSlide(3)"></span>
+                <span class="dot" onclick="currentSlide(4)"></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="container success-message" id="success-card">
+        <h1>Qué alegría compartir este San Valentín contigo 💖</h1>
+        <div class="image-container">
+            <img src="https://media.tenor.com/gUue12G4oXIAAAAj/hug-love.gif" alt="Abrazo de amor" class="main-image">
+        </div>
+        <p style="font-size: 1.3rem; color: #ff6b6b; font-weight: bold;">Eres mi gusanita favorita 🐛💕</p>
+        <p>¡Feliz San Valentín, Shirley Mabel 🐛💖!</p>
+        <p style="font-size: 0.9rem; color: #888;">De: Leonel Guillermo</p>
+    </div>
+
+    <script>
+        // Create floating hearts
+        function createHearts() {
+            const container = document.getElementById('hearts-container');
+            const heartSymbols = ['❤️', '💖', '💕', '🐛', '🍎', '✨'];
+            
+            setInterval(() => {
+                const heart = document.createElement('div');
+                heart.classList.add('heart');
+                heart.innerText = heartSymbols[Math.floor(Math.random() * heartSymbols.length)];
+                heart.style.left = Math.random() * 100 + 'vw';
+                heart.style.animationDuration = Math.random() * 3 + 4 + 's';
+                heart.style.fontSize = Math.random() * 20 + 10 + 'px';
+                
+                container.appendChild(heart);
+                
+                // Remove heart after animation
+                setTimeout(() => {
+                    heart.remove();
+                }, 8000);
+            }, 300);
+        }
+
+        createHearts();
+
+        // Move the "No" button
+        function moveButton() {
+            const btnNo = document.getElementById('btn-no');
+            
+            // Calculate boundaries relative to the viewport to keep it reachable but hard
+            const maxWidth = window.innerWidth - btnNo.offsetWidth;
+            const maxHeight = window.innerHeight - btnNo.offsetHeight;
+
+            // Generate random position
+            const newX = Math.random() * (maxWidth - 50) + 25;
+            const newY = Math.random() * (maxHeight - 50) + 25;
+
+            btnNo.style.position = 'fixed';
+            btnNo.style.left = newX + 'px';
+            btnNo.style.top = newY + 'px';
+            btnNo.style.zIndex = '100'; // Ensure it's above everything
+        }
+
+        // Accept proposal
+        function acceptProposal() {
+            // Launch confetti
+            confetti({
+                particleCount: 150,
+                spread: 70,
+                origin: { y: 0.6 },
+                colors: ['#ff6b6b', '#ff9e9e', '#ffffff']
+            });
+
+            // Keep launching small bursts
+            const duration = 3000;
+            const end = Date.now() + duration;
+
+            (function frame() {
+                confetti({
+                    particleCount: 5,
+                    angle: 60,
+                    spread: 55,
+                    origin: { x: 0 },
+                    colors: ['#ff6b6b', '#ff9e9e']
+                });
+                confetti({
+                    particleCount: 5,
+                    angle: 120,
+                    spread: 55,
+                    origin: { x: 1 },
+                    colors: ['#ff6b6b', '#ff9e9e']
+                });
+
+                if (Date.now() < end) {
+                    requestAnimationFrame(frame);
+                }
+            }());
+
+            // Switch content
+            document.getElementById('main-card').style.display = 'none';
+            document.getElementById('success-card').style.display = 'block';
+            
+            document.body.style.backgroundColor = '#fff5f5';
+        }
+
+        // Carousel Logic
+        let slideIndex = 0;
+        let slideTimer;
+        
+        showSlides();
+
+        function showSlides() {
+            let i;
+            let slides = document.getElementsByClassName("carousel-slide");
+            let dots = document.getElementsByClassName("dot");
+            let progressBar = document.getElementById("progress-bar");
+            
+            for (i = 0; i < slides.length; i++) {
+                slides[i].style.display = "none";  
+                slides[i].classList.remove("active");
+            }
+            
+            slideIndex++;
+            if (slideIndex > slides.length) {slideIndex = 1}    
+            
+            for (i = 0; i < dots.length; i++) {
+                dots[i].className = dots[i].className.replace(" active", "");
+            }
+            
+            slides[slideIndex-1].style.display = "flex";  
+            slides[slideIndex-1].classList.add("active");
+            dots[slideIndex-1].className += " active";
+            
+            // Reset Progress Bar Animation
+            progressBar.classList.remove("animate");
+            void progressBar.offsetWidth; // Trigger reflow
+            progressBar.classList.add("animate");
+            
+            // Clear any existing timer to avoid conflicts if manually clicked
+            clearTimeout(slideTimer);
+            slideTimer = setTimeout(showSlides, 4000); // Change image every 4 seconds
+        }
+
+        function currentSlide(n) {
+            slideIndex = n - 1; // Adjust because showSlides increments immediately
+            showSlides();
+        }
+    </script>
+</body>
+</html>
