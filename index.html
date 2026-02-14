@@ -126,6 +126,18 @@
             transform: scale(1.05);
         }
 
+        .btn-wait {
+            background-color: #ffd166;
+            color: #fff;
+            z-index: 2;
+        }
+
+        .btn-wait:hover {
+            background-color: #ffc04d;
+            transform: scale(1.1);
+            box-shadow: 0 6px 20px rgba(255, 192, 77, 0.4);
+        }
+
         /* Carousel Styles */
         .carousel-container {
             margin-top: 20px;
@@ -270,6 +282,7 @@
 
         <div class="buttons">
             <button class="btn btn-yes" onclick="acceptProposal()">¡SÍ, ACEPTO! 💖</button>
+            <button class="btn btn-wait" onclick="waitProposal()">Espérame tantito ⏳</button>
             <button class="btn btn-no" id="btn-no" onclick="rejectProposal()">No 😢</button>
         </div>
 
@@ -352,6 +365,16 @@
         <p style="font-size: 0.9rem; color: #888;">Tu gusanito Leonel Guillermo</p>
     </div>
 
+    <div class="container success-message" id="wait-card">
+        <h1>Tómate tu tiempo, bonita ⏳</h1>
+        <div class="image-container">
+            <img src="https://media.tenor.com/N2sLh4b4bYgAAAAj/mochi-peach.gif" alt="Esperando pacientemente" class="main-image">
+        </div>
+        <p style="font-size: 1.1rem; color: #555; line-height: 1.6;">No hay prisa. Entiendo que el corazón tiene sus propios tiempos y yo respeto los tuyos. Aquí estaré esperándote con la misma ilusión, porque vales cada segundo de espera. ✨</p>
+        <p style="font-size: 1.1rem; color: #ffd166; font-weight: bold;">¡Sin presiones, solo cariño!</p>
+        <p style="font-size: 0.9rem; color: #888;">De: Leonel Guillermo</p>
+    </div>
+
     <script>
         // Create floating hearts
         function createHearts() {
@@ -385,6 +408,7 @@
             document.getElementById('main-card').style.display = 'none';
             document.getElementById('success-card').style.display = 'none';
             document.getElementById('rejection-card').style.display = 'none';
+            document.getElementById('wait-card').style.display = 'none';
             document.body.style.backgroundColor = 'var(--bg-color)';
 
             if (hash === '#aceptado') {
@@ -393,6 +417,9 @@
             } else if (hash === '#ups') {
                 document.getElementById('rejection-card').style.display = 'block';
                 document.body.style.backgroundColor = '#f4f4f4';
+            } else if (hash === '#espera') {
+                document.getElementById('wait-card').style.display = 'block';
+                document.body.style.backgroundColor = '#fff9e6';
             } else {
                 document.getElementById('main-card').style.display = 'block';
             }
@@ -446,6 +473,11 @@
         // Reject proposal
         function rejectProposal() {
             location.hash = 'ups';
+        }
+
+        // Wait proposal
+        function waitProposal() {
+            location.hash = 'espera';
         }
 
         // Carousel Logic
